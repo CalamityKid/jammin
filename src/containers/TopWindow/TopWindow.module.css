@@ -1,0 +1,16 @@
+h1{
+    align-items:end;
+    margin-top: 20px;
+    font-size: 40;
+    color: #EE371F; 
+}
+.searchBar{
+    display: flex;
+    
+    align-items:flex-start;
+    background-color: rgb(190, 21, 159);
+    color:white;
+    margin-bottom: 500;
+    
+    
+}
