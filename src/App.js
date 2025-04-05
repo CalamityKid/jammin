@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import TopWindow from './containers/TopWindow/TopWindow';
+import PlaylistExample from './components/LeftWindow/Playlist/Playlist';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         </a>
       </header>
       <TopWindow />
+      <PlaylistExample />
     </div>
   );
 }
