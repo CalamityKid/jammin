@@ -6,6 +6,8 @@ import Playlist from './Data/Playlist'; // Importing playlist data
 import Cache from './Data/Cache';
 import SearchCache from './Data/APIComputer'; // Importing search cache data
 
+const PlaylistCache = new Cache(); // Create a cache for the playlist
+
 function App() {
   // State to manage user behavior within the app
   const [userBehavior, setUserBehavior] = React.useState("searching");
@@ -32,7 +34,7 @@ function App() {
     if (isInitialized.current) return; // Prevent running the logic twice
     isInitialized.current = true;
 
-  const PlaylistCache = new Cache(); // Create a cache for the playlist
+  //const PlaylistCache = new Cache(); // Create a cache for the playlist
 
   // Create and populate the first playlist
   const pl1 = addPlaylist("My Playlist 1", PlaylistCache, 0);
@@ -54,7 +56,9 @@ function App() {
       <p>Current Behavior: {userBehavior}</p>
       <p>Search Value: {searchValue}</p>
       <p>Playlist Counter: {playlistCounter}</p>
-      <LeftWindowContainer allPlaylists={allPlaylists} addPlaylist={addPlaylist} userBehavior={userBehavior} setUserBehavior={setUserBehavior}/>
+      <LeftWindowContainer allPlaylists={allPlaylists} 
+      PlaylistCache= {PlaylistCache} addPlaylist={addPlaylist} 
+      userBehavior={userBehavior} setUserBehavior={setUserBehavior}/>
       
 
     </div>
