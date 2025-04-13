@@ -6,6 +6,7 @@ class Song {
         this.spotifyID = spotifyID;
         this.songName = songName;
         this.artist = artist;
+        this.inPlaylists = [];
     }
 
     // Setter and getter for spotifyID
@@ -42,6 +43,10 @@ class Song {
 
     get artist() {
         return this._artist;
+    }
+
+    getInPlaylists() {
+        return this.inPlaylists;
     }
 }
 

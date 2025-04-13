@@ -1,14 +1,15 @@
 import React from 'react';
 import LeftToggle from '../../components/LeftWindow/LeftToggle/LeftToggle';
 import PlaylistDeck from '../../components/LeftWindow/PlaylistCard/PlaylistDeck';
-function LeftWindowContainer({userBehavior, setUserBehavior}) {
-    // this should change what is being displayed under the left toggle depending
-    //on the LeftWSelection state that is defined in LeftToggle "search" OR "playlist"
+function LeftWindowContainer({userBehavior, setUserBehavior, allPlaylists}) {
+    // Displays the left window of the app
+    // Left toggle sets and responds to userBehavior state
+    // will display search or playlist components on that state.
 
     return(
         <>
         <LeftToggle userBehavior={userBehavior} setUserBehavior={setUserBehavior} />
-        {userBehavior === "playlist" || userBehavior === "info" ? <PlaylistDeck /> : null}
+        {userBehavior === "playlist" || userBehavior === "info" ? <PlaylistDeck allPlaylists={allPlaylists} /> : null}
         </>
 
     );

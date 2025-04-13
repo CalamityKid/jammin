@@ -1,20 +1,9 @@
-import Cache from "./Cache.js";
-import SearchCache from "./APIComputer.js"; //this should be deleted later
-// figure out a programming pattern to deal with global variables
-// for now ill pass this allPlaylists object around.
-
-const allPlaylists = {
-    counter : 0, 
-    listOfPlaylists: [], //list of playlist objects,
-    }
-
 class Playlist {
-    constructor (name, cache){
+    constructor (name, cache, playlistId){
         this.name = name;
-        this.playlistId = allPlaylists.counter++;
+        this.playlistId = playlistId;
         this.songs = [];
         this.cache = cache; // Cache the playlist reads from
-        allPlaylists.listOfPlaylists.push(this);
         }
     
 
@@ -39,6 +28,8 @@ class Playlist {
         this.cache.songToCache(song);
         // Add the song's spotifyID to the playlist's songs array
         this.songs.push(spotifyID);
+        // Add the playlist to the song's inPlaylists array
+        this.cache.retrieveSong(spotifyID).inPlaylists.push(this);
     }
 
     removeSong(song) {
@@ -48,6 +39,9 @@ class Playlist {
         }
         // Remove the song's spotifyID from the playlist's songs array
         this.songs = this.songs.filter(id => id !== spotifyID);
+        // Remove the playlist from the song's inPlaylists array
+        const songObj = this.cache.retrieveSong(spotifyID); 
+        songObj.inPlaylists = songObj.inPlaylists.filter(pl => pl !== this);
     }
 
     retrieveSong(spotifyID) {
@@ -69,16 +63,4 @@ class Playlist {
     }
 }
 
-const PlaylistCache = new Cache(); // Create a cache for the playlist
-const pl1 = new Playlist("My Playlist 1", PlaylistCache);
-pl1.addSong(SearchCache.retrieveSong("spotifyid1"));
-pl1.addSong(SearchCache.retrieveSong("spotifyid2"));
-pl1.addSong(SearchCache.retrieveSong("spotifyid3"));
-const pl2 = new Playlist("My Playlist 2", PlaylistCache);
-pl2.addSong(SearchCache.retrieveSong("spotifyid4"));
-pl2.addSong(SearchCache.retrieveSong("spotifyid5"));
-
-console.log(allPlaylists.listOfPlaylists); // Log the list of playlists to verify
-//export default Playlist;
-//should be fixed later
-export default allPlaylists; // Export the allPlaylists object
+export default Playlist;

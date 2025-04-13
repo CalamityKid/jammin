@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PlaylistCard from './PlaylistCard';
-import allPlaylists from '../../../Data/Playlist';
 
-function PlaylistDeck() {
+function PlaylistDeck({allPlaylists}) {
+    const [visibleDeckId, setVisibleDeckId] = useState(null); // Track the visible deck's ID
+
+    const toggleDeckVisibility = (playlistId) => {
+        setVisibleDeckId((prevId) => (prevId === playlistId ? null : playlistId)); // Toggle visibility
+    };
+
     return (
         <div>
-            {allPlaylists.listOfPlaylists.map((playlist, index) => (
-                <PlaylistCard key={index} playlist={playlist} />
+            {allPlaylists.map((playlist, index) => (
+                <PlaylistCard key={index} playlist={playlist} 
+                isDeckVisible={visibleDeckId === playlist.playlistId} // Check if this deck is visible
+                toggleDeckVisibility={toggleDeckVisibility}/>
             ))}
         </div>
     );
