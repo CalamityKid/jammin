@@ -1,38 +1,33 @@
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Full viewport height */
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  
+  .TopWindow {
+    flex: 0 0 10%; /* Occupies 30% of the screen height */
+    background-color: #f5f5f5; /* Light background for visibility */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 2px solid #ccc; /* Optional: Add a border for separation */
   }
-  to {
-    transform: rotate(360deg);
+  
+  .SideBySide {
+    flex: 1; /* Occupies the remaining 70% of the screen height */
+    display: flex;
+    flex-direction: row;
   }
-}
+  
+  .LeftWindowContainer {
+    flex: 1; /* Occupies 50% of the width */
+    background-color: #e8f5e9; /* Light green background for visibility */
+    border-right: 2px solid #ccc; /* Optional: Add a border for separation */
+    overflow-y: auto; /* Enable scrolling if content overflows */
+  }
+  
+  .RightWindowContainer {
+    flex: 1; /* Occupies 50% of the width */
+    background-color: #e3f2fd; /* Light blue background for visibility */
+    overflow-y: auto; /* Enable scrolling if content overflows */
+  }

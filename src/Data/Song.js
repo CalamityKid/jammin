@@ -1,6 +1,3 @@
-//Each Song object has a Spotify ID, a name and an artist. 
-// They are created in a Cache object. 
-
 class Song {
     constructor(spotifyID, songName, artist) {
         this.spotifyID = spotifyID;
@@ -45,8 +42,26 @@ class Song {
         return this._artist;
     }
 
-    getInPlaylists() {
-        return this.inPlaylists;
+    // Method to get playlist names
+    inPlaylistNames() {
+        return this.inPlaylists.map(playlist => playlist.name);
+    }
+
+    // Method to remove a playlist by its ID
+    removeFromPlaylist(playlistId) {
+        const playlist = this.inPlaylists.find(pl => pl.playlistId === playlistId);
+    
+        if (playlist) {
+            const songIndex = playlist.songs.indexOf(this.spotifyID);
+            if (songIndex !== -1) {
+                playlist.songs.splice(songIndex, 1); // Remove one instance
+            }
+    
+            const remainingInstances = playlist.songs.filter(id => id === this.spotifyID).length;
+            if (remainingInstances === 0) {
+                this.inPlaylists = this.inPlaylists.filter(pl => pl.playlistId !== playlistId);
+            }
+        }
     }
 }
 

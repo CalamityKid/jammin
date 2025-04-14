@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-function NewPlaylist({ addPlaylist, playlistCache }) {
+function NewPlaylist({ addPlaylist, PlaylistCache }) {
     const [isInputVisible, setIsInputVisible] = useState(false); // Toggle input visibility
     const [playlistName, setPlaylistName] = useState(""); // Track input value
 
     const handleCreatePlaylist = () => {
         if (playlistName.trim() === "") return; // Do nothing if input is empty
-        addPlaylist(playlistName, playlistCache); // Create a new playlist
+        addPlaylist(playlistName, PlaylistCache); // Create a new playlist
         setPlaylistName(""); // Clear the input field
         setIsInputVisible(false); // Hide the input field
     };
@@ -69,7 +69,7 @@ function NewPlaylist({ addPlaylist, playlistCache }) {
 
 NewPlaylist.propTypes = {
     addPlaylist: PropTypes.func.isRequired, // Function to add a new playlist
-    playlistCache: PropTypes.object.isRequired, // Cache object for the playlist
+    PlaylistCache: PropTypes.object.isRequired, // Cache object for the playlist
 };
 
 export default NewPlaylist;
