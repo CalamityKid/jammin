@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import NewPlaylist from '../../LeftWindow/NewPlaylist/NewPlaylist';
 
-function AddToPlaylistButton({ song, allPlaylists, addPlaylist, PlaylistCache }) {
+function AddToPlaylistButton({ song, allPlaylists, addPlaylist, Cache }) {
     const [isDropdownVisible, setIsDropdownVisible] = useState(false); // Toggle dropdown visibility
 
     const handleAddToPlaylist = (playlist) => {
@@ -62,7 +62,7 @@ function AddToPlaylistButton({ song, allPlaylists, addPlaylist, PlaylistCache })
                         </div>
                     ))}
                     {/* NewPlaylist component */}
-                    <NewPlaylist addPlaylist={addPlaylist} PlaylistCache={PlaylistCache} />
+                    <NewPlaylist addPlaylist={addPlaylist} Cache={Cache} />
                 </div>
             )}
         </div>
@@ -84,7 +84,7 @@ AddToPlaylistButton.propTypes = {
         })
     ).isRequired,
     addPlaylist: PropTypes.func.isRequired, // Function to add a new playlist
-    PlaylistCache: PropTypes.object.isRequired, // Cache object for the playlist
+    Cache: PropTypes.object.isRequired, // Cache object for the playlist
 };
 
 export default AddToPlaylistButton;

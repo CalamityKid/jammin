@@ -8,7 +8,7 @@ function LeftWindowContainer({userBehavior, setUserBehavior, allPlaylists, addPl
     // will display search or playlist components on that state.
 
     const playlistDisplay = [
-    <NewPlaylist addPlaylist={addPlaylist} PlaylistCache={PlaylistCache} />, 
+    <NewPlaylist addPlaylist={addPlaylist} Cache={PlaylistCache} />, 
         <PlaylistDeck allPlaylists={allPlaylists} removePlaylist={removePlaylist} songInfo={songInfo} setSongInfo={setSongInfo} />]
         
     return(

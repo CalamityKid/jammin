@@ -10,7 +10,7 @@ function RightWindowContainer({ songInfo, allPlaylists, addPlaylist, PlaylistCac
                 <SongDisplay song={songInfo} 
                 allPlaylists={allPlaylists}
                 addPlaylist={addPlaylist} 
-                PlaylistCache={PlaylistCache}/>
+                Cache={PlaylistCache}/>
             ) : (
                 // Display a message if songInfo is null
                 <h2 style={{ textAlign: "center", color: "gray" }}>
