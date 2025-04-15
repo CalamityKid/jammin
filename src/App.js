@@ -1,26 +1,29 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
+//import API functions
+import { updateSearchValue, triggerAPICall, returnStringifiedTracks } from './API/Spotify';
+import populateCacheFromJSON from './Data/APIComputer';
+//import data structures
+import Playlist from './Data/Playlist';
+import Cache from './Data/Cache';
+//import components
 import TopWindow from './containers/TopWindow/TopWindow';
 import LeftWindowContainer from './containers/LeftWindow/LeftWindowContainer';
-import Playlist from './Data/Playlist'; // Importing playlist data
-import Cache from './Data/Cache';
-import SearchCache from './Data/APIComputer'; // Importing search cache data
 import RightWindowContainer from './containers/RightWindow/RightWindowContainer';
-
-const PlaylistCache = new Cache(); // Create a cache for the playlist
+//create Caches
+const PlaylistCache = new Cache(); // Cache for the playlist
+const SearchCache = new Cache(); // Cache for Search Results
 
 function App() {
-  // State to manage user behavior within the app
-  const [userBehavior, setUserBehavior] = React.useState("searching");
+  const [userBehavior, setUserBehavior] = React.useState("searching"); // mandates display flow of components
+  const [searchValue, setSearchValue] = useState(""); // Top Window search value, used to make API calls
+  const [songInfo, setSongInfo] = useState(null); // Song information displayed in right window
 
-  // State used to manage SeachBar value, and to make API calls
-  const [searchValue, setSearchValue] = useState(""); // 
-  const [songInfo, setSongInfo] = useState(null); // State to manage song information
-
-  // State to manage all playlists
+  // States to manage all playlists
   const [allPlaylists, setAllPlaylists] = useState([]);
   const [playlistCounter, setPlaylistCounter] = useState(0); // to create unique playlist IDs
 
+  // Playlist functions
   const addPlaylist = (playlistName, cache, playlistId = playlistCounter) => {
     const newPlaylist = new Playlist(playlistName, cache, playlistId);
     setAllPlaylists((prevPlaylists) => [...prevPlaylists, newPlaylist]);
@@ -44,7 +47,6 @@ function App() {
             }
         });
 
-        // Remove the playlist from the allPlaylists array
         setAllPlaylists((prevPlaylists) =>
             prevPlaylists.filter((playlist) => playlist.playlistId !== playlistId)
         );
@@ -52,7 +54,8 @@ function App() {
 };
 
 
-  const isInitialized = useRef(false);
+/*
+  const isInitialized = useRef(false);  
 // Initialize playlists and songs using useEffect
   useEffect(() => {
     if (isInitialized.current) return; // Prevent running the logic twice
@@ -71,6 +74,7 @@ function App() {
   pl2.addSong(SearchCache.retrieveSong("spotifyid5"));
   pl1.addSong(SearchCache.retrieveSong("spotifyid5"));
 }, []);
+*/
 
 
   return (
