@@ -18,6 +18,7 @@ function App() {
   const [userBehavior, setUserBehavior] = React.useState("searching"); // mandates display flow of components
   const [searchValue, setSearchValue] = useState(""); // Top Window search value, used to make API calls
   const [songInfo, setSongInfo] = useState(null); // Song information displayed in right window
+  const [searchPlaylist, setSearchPlaylist] = useState(new Playlist("Search", SearchCache, 0)); // Playlist created from search results
 
   // States to manage all playlists
   const [allPlaylists, setAllPlaylists] = useState([]);
@@ -53,29 +54,36 @@ function App() {
     }
 };
 
+//UseEffect to handle search value changes and API calls
+useEffect(() => {
+  if (!searchValue) return;
 
-/*
-  const isInitialized = useRef(false);  
-// Initialize playlists and songs using useEffect
-  useEffect(() => {
-    if (isInitialized.current) return; // Prevent running the logic twice
-    isInitialized.current = true;
+  const timeoutId = setTimeout(async () => {
+    try {
+      // Update the search value in Spotify.js
+      updateSearchValue(searchValue);
 
-  // Create and populate the first playlist
-  const pl1 = addPlaylist("My Playlist 1", PlaylistCache, 0);
-  pl1.addSong(SearchCache.retrieveSong("spotifyid1"));
-  console.log("in playlist names: ", SearchCache.retrieveSong("spotifyid1").inPlaylistNames())
-  pl1.addSong(SearchCache.retrieveSong("spotifyid2"));
-  pl1.addSong(SearchCache.retrieveSong("spotifyid3"));
+      // Trigger the API call and get the profile
+      let rawTracks = await triggerAPICall();
+      const parsed = JSON.parse(rawTracks); // Parse the raw tracks
 
-  // Create and populate the second playlist
-  const pl2 = addPlaylist("My Playlist 2", PlaylistCache, 1);
-  pl2.addSong(SearchCache.retrieveSong("spotifyid4"));
-  pl2.addSong(SearchCache.retrieveSong("spotifyid5"));
-  pl1.addSong(SearchCache.retrieveSong("spotifyid5"));
-}, []);
-*/
+      // Add to SearchCache and return song object array
+      let searchedSongs = populateCacheFromJSON(parsed, SearchCache);
 
+      // Create a new playlist and add the songs to it
+      const newPlaylist = new Playlist("Search", SearchCache, 0)
+      searchedSongs.forEach((song) => {
+        newPlaylist.addSong(song);
+      });
+      setSearchPlaylist(newPlaylist); // Update the state with the new playlist
+
+    } catch (error) {
+      console.error("Error during search and playlist creation:", error);
+    }
+  }, 1000); // Wait for 1 second before executing
+
+  return () => clearTimeout(timeoutId); // Cleanup timeout if searchValue changes
+}, [searchValue]);
 
   return (
     <div className="App">
@@ -95,7 +103,7 @@ function App() {
       <LeftWindowContainer allPlaylists={allPlaylists} 
       PlaylistCache= {PlaylistCache} addPlaylist={addPlaylist}
       removePlaylist= {removePlaylist} songInfo={songInfo} setSongInfo={setSongInfo}
-      userBehavior={userBehavior} setUserBehavior={setUserBehavior}/>
+      userBehavior={userBehavior} setUserBehavior={setUserBehavior} searchPlaylist={searchPlaylist}/>
       </div>
 
       <div className="RightWindowContainer">

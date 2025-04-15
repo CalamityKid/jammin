@@ -1,24 +1,22 @@
-//import Cache from './Cache.js'; // Import the Cache class
-//import MockData from '../fakeinfo/MockData.json' with { type: "json" };; // Import the JSON file directly
-
-//const SearchCache = new Cache(); // Create an instance of Cache for search results
+// This function populates the cache with data from a parsed JSON format
+//then it populated the Cache attached to it and returns a list of song objects
+// it's used to populate the Search Component
 
 function populateCacheFromJSON(data, cache) {
     try {
+        let searchArray = [];
         // Iterate over each entry in the JSON object and add it to the cache
         data.forEach(({ spotifyID, songName, artist }) => {
             cache.rawToCache(spotifyID, songName, artist);
+            searchArray.push(cache.retrieveSong(spotifyID));
         });
+        console.log("Cache populated successfully! Returning array of song objects.");
+        return searchArray; // Return the populated cache array
 
-        console.log("Cache populated successfully!");
     } catch (error) {
         console.error("Error populating Cache:", error);
         throw error;
     }
 }
-
-// Populate the SearchCache using the imported JSON data
-//populateSearchCacheFromJSON(MockData, SearchCache);
-//console.log(SearchCache.retrieveSong("spotifyid2").artist); // Verify the cache is populated
 
 export default populateCacheFromJSON;
