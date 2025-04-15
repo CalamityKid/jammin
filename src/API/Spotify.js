@@ -11,13 +11,14 @@ var client_id = '5544742038044636ae0e70df50006519';
 var client_secret = '078517ab43b2458f89e2386a57393319';
 let dasToken;
 let query="";
-let profile;
 
 function updateSearchValue(newValue) {
   query = newValue;
 };
 
 async function getToken() {
+  const encodedCredentials = btoa(client_id + ':' + client_secret); // Use btoa for Base64 encoding
+
   const response = await fetch('https://accounts.spotify.com/api/token', {
     method: 'POST',
     body: new URLSearchParams({
@@ -25,20 +26,23 @@ async function getToken() {
     }),
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': 'Basic ' + (Buffer.from(client_id + ':' + client_secret).toString('base64')),
+      'Authorization': 'Basic ' + encodedCredentials, // Use the encoded credentials
     },
   });
 
   return await response.json();
-};
+}
 
 async function getAndStoreToken() {
-    try{
-        const response = await getToken();
-        dasToken = response.access_token;}
-    catch (error) {
-        console.error("Error fetching token:", error);
-    }}
+  try {
+      console.log("Fetching token...");
+      const response = await getToken();
+      dasToken = response.access_token;
+      console.log("Token fetched successfully:", dasToken);
+  }  catch (error) {
+      console.error("Error fetching token:", error);
+  }
+}
 
 
 const suffix="&type=track,album,artist";
@@ -52,27 +56,37 @@ async function getSearchInfo(access_token) {
   return await response.json();
 }
 
-
-async function triggerAPICall(){
-    try {
-        if (!dasToken) {
-            await getAndStoreToken();
-        }
-    profile = await getSearchInfo(dasToken);
-        } catch (error) {
-            console.error("Error: ", error);
-        }
-};
-
 function returnStringifiedTracks(profile) {
-    const formattedTracks = profile.tracks.items.slice(0, 5).map(item => ({
+  let firstFive = [];
+  for (let i = 0; i < 5; i++) {firstFive.push(profile.tracks.items[i]);}
+
+  const formattedTracks = firstFive.map(item => ({
     spotifyID: item.id,
     songName: item.name,
     artist: item.artists[0].name
   }));
   const stringifiedTracks = JSON.stringify(formattedTracks);
   return stringifiedTracks;}
-/*
+
+  async function triggerAPICall(profile){
+    try {
+        if (!dasToken) {
+            await getAndStoreToken();
+        }
+    const response = await getSearchInfo(dasToken);
+    console.log("inside triggerAPICall");
+    
+    const stringifiedResults = returnStringifiedTracks(response);
+    console.log(stringifiedResults)
+    
+    return stringifiedResults;
+
+    } catch (error) {
+            console.error("Error: ", error);
+        }
+};
+
+  /*
   getToken().then(response => {
     getSearchInfo(response.access_token).then(profile => {
         const smm = returnStringifiedTracks(profile);
@@ -89,3 +103,4 @@ getToken().then(response => {
     console.log(profile.tracks.items[0].artists[0].id);
 })});
 */
+export { updateSearchValue, triggerAPICall, returnStringifiedTracks }
