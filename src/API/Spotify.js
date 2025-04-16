@@ -1,16 +1,10 @@
-/**
- * This is an example of a basic node.js script that performs
- * the Client Credentials oAuth2 flow to authenticate against
- * the Spotify Accounts.
- *
- * For more information, read
- * https://developer.spotify.com/documentation/web-api/tutorials/client-credentials-flow
- */
+// Spotify API integration
 
 var client_id = '5544742038044636ae0e70df50006519';
 var client_secret = '078517ab43b2458f89e2386a57393319';
 let dasToken;
 let query="";
+const suffix="&type=track,album,artist";
 
 function updateSearchValue(newValue) {
   query = newValue;
@@ -44,9 +38,6 @@ async function getAndStoreToken() {
   }
 }
 
-
-const suffix="&type=track,album,artist";
-
 async function getSearchInfo(access_token) {
   const response = await fetch("https://api.spotify.com/v1/search?q="+query+suffix, {
     method: 'GET',
@@ -68,7 +59,7 @@ function returnStringifiedTracks(profile) {
   const stringifiedTracks = JSON.stringify(formattedTracks);
   return stringifiedTracks;}
 
-  async function triggerAPICall(profile){
+async function triggerAPICall(){
     try {
         if (!dasToken) {
             await getAndStoreToken();
@@ -103,4 +94,4 @@ getToken().then(response => {
     console.log(profile.tracks.items[0].artists[0].id);
 })});
 */
-export { updateSearchValue, triggerAPICall, returnStringifiedTracks }
+export { updateSearchValue, triggerAPICall}
