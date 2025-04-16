@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 //import API functions
-import { updateSearchValue, triggerAPICall, returnStringifiedTracks } from './API/Spotify';
+import { updateSearchValue, triggerAPICall } from './API/Spotify';
 import populateCacheFromJSON from './Data/APIComputer';
 //import data structures
 import Playlist from './Data/Playlist';
@@ -91,9 +91,6 @@ useEffect(() => {
       {/* TopWindow component */}
     <div className="TopWindow">
       <TopWindow setUserBehavior={setUserBehavior} searchValue={searchValue} setSearchValue={setSearchValue}/>
-      <p>Current Behavior: {userBehavior}</p>
-      <p>Search Value: {searchValue}</p>
-      <p>Playlist Counter: {playlistCounter}</p>
     </div>
 
     <div className="SideBySide">

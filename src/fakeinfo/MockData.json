@@ -1,8 +1,0 @@
-[
-    { "spotifyID": "spotifyid1", "songName": "song1", "artist": "artist1" },
-    { "spotifyID": "spotifyid2", "songName": "song2", "artist": "artist2" },
-    { "spotifyID": "spotifyid3", "songName": "song3", "artist": "artist3" },
-    { "spotifyID": "spotifyid4", "songName": "song4", "artist": "artist4" },
-    { "spotifyID": "spotifyid5", "songName": "song5", "artist": "artist5" },
-    { "spotifyID": "spotifyid6", "songName": "song6", "artist": "artist6" }
-]
